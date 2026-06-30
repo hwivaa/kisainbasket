@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>점검일지 비교 자료</title>
+<style>
+  :root{
+    --ink:#1c2722; --dim:#55615a; --line:#c9d2cc; --line2:#e4eae6;
+    --green:#14342A; --green2:#2F7D5F; --pale:#F1F6F3; --flag:#FBF1DC; --flagln:#E4C277; --flagtx:#8A6A1E;
+    --paper:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#5c6b63;padding:24px;font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Malgun Gothic",sans-serif;color:var(--ink);}
+  .page{width:840px;margin:0 auto;background:var(--paper);box-shadow:0 10px 40px rgba(0,0,0,.3);}
+  /* 상단 문서 식별 바 */
+  .docbar{display:flex;justify-content:space-between;align-items:center;padding:9px 28px;border-bottom:1px solid var(--line);font-size:12px;color:var(--dim);letter-spacing:.2px;}
+  .docbar .right{font-family:"Courier New",monospace;}
+  /* 헤더 */
+  .head{padding:26px 40px 22px;border-bottom:3px solid var(--green);}
+  .head .org{font-size:13px;font-weight:700;color:var(--green2);letter-spacing:.5px;margin-bottom:10px;}
+  .head h1{font-size:27px;font-weight:800;letter-spacing:-.4px;color:var(--green);}
+  .head .sub{font-size:13.5px;color:var(--dim);margin-top:8px;line-height:1.5;}
+  /* 본문 */
+  .body{padding:24px 40px 36px;}
+  .sec{margin-top:26px;}
+  .sec:first-child{margin-top:8px;}
+  .sec-h{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;color:var(--green);margin-bottom:11px;}
+  .sec-h .no{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:4px;background:var(--green);color:#fff;font-size:12px;font-weight:800;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:middle;}
+  thead th{background:var(--pale);color:var(--green);font-weight:700;font-size:13px;text-align:center;}
+  .info-tbl th{background:var(--pale);color:var(--dim);font-weight:700;width:108px;white-space:nowrap;}
+  .num{font-family:"Courier New",monospace;text-align:center;font-size:13.5px;letter-spacing:.3px;}
+  .center{text-align:center;}
+  /* 동일값 플래그 */
+  .flag{background:var(--flag);}
+  .same-pill{display:inline-block;padding:1px 8px;border:1px solid var(--flagln);border-radius:20px;background:#fff;color:var(--flagtx);font-size:11.5px;font-weight:700;}
+  .ok-pill{display:inline-block;padding:1px 8px;border:1px solid var(--line);border-radius:20px;background:#fff;color:var(--dim);font-size:11.5px;font-weight:600;}
+  /* 사진 비교 */
+  .photos{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .photo-card{border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+  .photo-card .cap{background:var(--pale);padding:7px 12px;font-size:12.5px;font-weight:700;color:var(--green);border-bottom:1px solid var(--line);}
+  .ph{height:188px;background:repeating-linear-gradient(45deg,#eef1ef,#eef1ef 11px,#e7ebe8 11px,#e7ebe8 22px);display:flex;align-items:center;justify-content:center;position:relative;}
+  .ph .frame{position:absolute;inset:14px;border:1px dashed #9fb0a7;border-radius:4px;}
+  .ph .label{font-size:12px;color:#7d8c84;background:rgba(255,255,255,.78);padding:4px 11px;border-radius:4px;z-index:1;}
+  .ph .stamp{position:absolute;right:10px;bottom:10px;font-family:"Courier New",monospace;font-size:11px;color:#c2402f;background:rgba(255,255,255,.85);padding:2px 7px;border:1px solid #e3b3ab;border-radius:3px;}
+  .meta{font-size:12px;border-top:0;}
+  .meta td,.meta th{padding:6px 12px;font-size:12px;}
+  .meta th{width:96px;background:#fafbfa;color:var(--dim);font-weight:600;}
+  .meta .num{text-align:left;}
+  /* 제보자 메모 */
+  .memo{margin-top:26px;border:1px solid var(--line);border-left:4px solid var(--green2);border-radius:0 6px 6px 0;background:var(--pale);padding:15px 18px;}
+  .memo .t{font-size:12.5px;font-weight:800;color:var(--green2);margin-bottom:6px;letter-spacing:.3px;}
+  .memo p{font-size:13.5px;line-height:1.75;color:var(--ink);}
+  /* 푸터 */
+  .foot{margin-top:24px;padding-top:14px;border-top:1px solid var(--line2);display:flex;justify-content:space-between;font-size:11.5px;color:var(--dim);}
+  @media print{ body{background:#fff;padding:0;} .page{box-shadow:none;width:100%;} }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="docbar">
+      <span>대외주의 · 내부 검토용</span>
+      <span class="right">문서번호 (제보) AN-2026-0614</span>
+    </div>
+
+    <div class="head">
+      <div class="org">한빛산업안전원 △△지부 · 안전점검부</div>
+      <h1>점검일지 비교 자료</h1>
+      <div class="sub">동일 사업장의 직전 분기 점검일지와 최근 분기 점검일지를 나란히 정리한 자료입니다.<br>두 점검의 기록을 항목별로 대조할 수 있도록 작성하였습니다.</div>
+    </div>
+
+    <div class="body">
+      <!-- 1. 점검 개요 -->
+      <div class="sec">
+        <div class="sec-h"><span class="no">1</span>점검 개요</div>
+        <table class="info-tbl">
+          <tr>
+            <th>사업장명</th><td>태진금속(주) 동부산단공장</td>
+            <th>업종</th><td>금속가공 (상시근로자 84명)</td>
+          </tr>
+          <tr>
+            <th>점검 종류</th><td>정기 안전점검 (분기)</td>
+            <th>담당 점검원</th><td>동일 점검원 1인</td>
+          </tr>
+          <tr>
+            <th>직전 점검일</th><td class="num" style="text-align:left;">2026-03-12 (목)</td>
+            <th>최근 점검일</th><td class="num" style="text-align:left;">2026-06-05 (금)</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- 2. 측정값 비교 -->
+      <div class="sec">
+        <div class="sec-h"><span class="no">2</span>주요 점검 항목 측정값 대조</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:32%;">점검 항목</th>
+              <th style="width:14%;">기준</th>
+              <th style="width:18%;">1분기 (3/12)</th>
+              <th style="width:18%;">2분기 (6/05)</th>
+              <th style="width:18%;">대조</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="flag">
+              <td>분전반 절연저항</td><td class="num">≥ 1.0 MΩ</td>
+              <td class="num">5.2</td><td class="num">5.2</td>
+              <td class="center"><span class="same-pill">완전 동일</span></td>
+            </tr>
+            <tr class="flag">
+              <td>접지저항</td><td class="num">≤ 10 Ω</td>
+              <td class="num">8.3</td><td class="num">8.3</td>
+              <td class="center"><span class="same-pill">완전 동일</span></td>
+            </tr>
+            <tr class="flag">
+              <td>국소배기장치 제어풍속</td><td class="num">≥ 0.5 m/s</td>
+              <td class="num">0.7</td><td class="num">0.7</td>
+              <td class="center"><span class="same-pill">완전 동일</span></td>
+            </tr>
+            <tr class="flag">
+              <td>작업장 소음</td><td class="num">≤ 90 dB</td>
+              <td class="num">84.0</td><td class="num">84.0</td>
+              <td class="center"><span class="same-pill">완전 동일</span></td>
+            </tr>
+            <tr>
+              <td>작업면 조도</td><td class="num">≥ 300 lux</td>
+              <td class="num">321</td><td class="num">318</td>
+              <td class="center"><span class="ok-pill">유사</span></td>
+            </tr>
+            <tr class="flag">
+              <td>컨베이어 방호덮개</td><td class="center">양호/불량</td>
+              <td class="center">양호</td><td class="center">양호</td>
+              <td class="center"><span class="same-pill">동일</span></td>
+            </tr>
+            <tr class="flag">
+              <td>소화기 충압 상태</td><td class="center">정상/불량</td>
+              <td class="center">정상</td><td class="center">정상</td>
+              <td class="center"><span class="same-pill">동일</span></td>
+            </tr>
+            <tr>
+              <td>종합 판정</td><td class="center">—</td>
+              <td class="center">이상 없음</td><td class="center">이상 없음</td>
+              <td class="center"><span class="ok-pill">동일</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 3. 현장 사진 비교 -->
+      <div class="sec">
+        <div class="sec-h"><span class="no">3</span>첨부 현장 사진 대조</div>
+        <div class="photos">
+          <div class="photo-card">
+            <div class="cap">1분기 점검 (2026-03-12) 제출 사진</div>
+            <div class="ph"><svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a4f52"/><stop offset="1" stop-color="#2c3032"/>
+    </linearGradient>
+    <radialGradient id="metal" cx="40%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#9aa1a4"/><stop offset="0.5" stop-color="#6c7276"/><stop offset="1" stop-color="#3f4447"/>
+    </radialGradient>
+    <radialGradient id="metal2" cx="40%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#8d9498"/><stop offset="1" stop-color="#3a3f42"/>
+    </radialGradient>
+    <linearGradient id="guard" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b9c0c3" stop-opacity="0.92"/><stop offset="1" stop-color="#7f868a" stop-opacity="0.92"/>
+    </linearGradient>
+    <radialGradient id="vig" cx="50%" cy="45%" r="75%">
+      <stop offset="0.6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.38"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 기계 하우징 배경 -->
+  <rect width="400" height="220" fill="url(#bg)"/>
+  <rect x="0" y="150" width="400" height="70" fill="#23272a" opacity="0.55"/>
+  <line x1="0" y1="150" x2="400" y2="150" stroke="#1c1f21" stroke-width="2"/>
+
+  <!-- 체인 (두 스프로킷 감싸는 띠) -->
+  <path d="M150,74 Q235,60 320,105 L320,165 Q235,180 150,166 Z" fill="none" stroke="#52585b" stroke-width="13"/>
+  <path d="M150,74 Q235,60 320,105 L320,165 Q235,180 150,166 Z" fill="none" stroke="#7c8488" stroke-width="9"/>
+  <path d="M150,74 Q235,60 320,105 L320,165 Q235,180 150,166 Z" fill="none" stroke="#3c4143" stroke-width="2" stroke-dasharray="6 5"/>
+
+  <!-- 큰 스프로킷 -->
+  <path d="M 196.0,120.0 L 187.3,127.4 L 192.5,137.6 L 181.6,141.1 L 182.5,152.5 L 171.1,151.6 L 167.6,162.5 L 157.4,157.3 L 150.0,166.0 L 142.6,157.3 L 132.4,162.5 L 128.9,151.6 L 117.5,152.5 L 118.4,141.1 L 107.5,137.6 L 112.7,127.4 L 104.0,120.0 L 112.7,112.6 L 107.5,102.4 L 118.4,98.9 L 117.5,87.5 L 128.9,88.4 L 132.4,77.5 L 142.6,82.7 L 150.0,74.0 L 157.4,82.7 L 167.6,77.5 L 171.1,88.4 L 182.5,87.5 L 181.6,98.9 L 192.5,102.4 L 187.3,112.6 Z" fill="url(#metal)" stroke="#23282b" stroke-width="1.5"/>
+  <circle cx="150" cy="120" r="20" fill="url(#metal2)" stroke="#23282b" stroke-width="1.5"/>
+  <circle cx="150" cy="120" r="6" fill="#23282b"/>
+  <circle cx="150" cy="104" r="2.6" fill="#2b3033"/><circle cx="166" cy="120" r="2.6" fill="#2b3033"/>
+  <circle cx="150" cy="136" r="2.6" fill="#2b3033"/><circle cx="134" cy="120" r="2.6" fill="#2b3033"/>
+
+  <!-- 작은 스프로킷 -->
+  <path d="M 350.0,135.0 L 343.3,140.7 L 346.6,148.9 L 338.0,150.9 L 337.0,159.7 L 328.5,157.4 L 323.6,164.8 L 317.1,158.8 L 309.4,163.1 L 306.4,154.8 L 297.5,154.9 L 298.7,146.2 L 290.9,142.2 L 296.0,135.0 L 290.9,127.8 L 298.7,123.8 L 297.5,115.1 L 306.4,115.2 L 309.4,106.9 L 317.1,111.2 L 323.6,105.2 L 328.5,112.6 L 337.0,110.3 L 338.0,119.1 L 346.6,121.1 L 343.3,129.3 Z" fill="url(#metal2)" stroke="#23282b" stroke-width="1.5"/>
+  <circle cx="320" cy="135" r="11" fill="url(#metal)" stroke="#23282b" stroke-width="1.2"/>
+  <circle cx="320" cy="135" r="3.5" fill="#23282b"/>
+
+  <!-- 방호덮개 (모서리 파손) -->
+  <path d="M196,40 L360,40 L360,96 L300,96 L300,78 L196,78 Z" fill="url(#guard)" stroke="#5f676b" stroke-width="1.5"/>
+  <path d="M300,96 L300,78 L340,78 L300,96 Z" fill="#2c3032" opacity="0.5"/>
+  <text x="208" y="62" font-family="Arial" font-size="11" fill="#3f4448" font-weight="bold" opacity="0.7">GUARD</text>
+  <circle cx="206" cy="48" r="2.4" fill="#4a5054"/><circle cx="352" cy="48" r="2.4" fill="#4a5054"/>
+  <circle cx="352" cy="88" r="2.4" fill="#4a5054"/>
+  <!-- 파손 표시(거친 모서리) -->
+  <path d="M300,78 l-8,6 l10,3 l-6,7 l12,2" fill="none" stroke="#c2402f" stroke-width="2" opacity="0.85"/>
+
+  <!-- 노출/그레인 비네팅 -->
+  <rect width="400" height="220" fill="url(#vig)"/>
+  <rect width="400" height="220" fill="#a9b0aa" opacity="0.04"/>
+</svg><span class="label" style="bottom:10px;left:10px;top:auto;position:absolute;">3라인 컨베이어 동력전달부</span><span class="stamp">2026-03-12 10:24</span></div>
+            <table class="meta">
+              <tr><th>파일명</th><td class="num">IMG_3417.jpg</td></tr>
+              <tr><th>촬영일시</th><td class="num">2026-03-12 10:24:18</td></tr>
+              <tr><th>촬영좌표</th><td class="num">35.18••, 129.07••</td></tr>
+            </table>
+          </div>
+          <div class="photo-card">
+            <div class="cap">2분기 점검 (2026-06-05) 제출 사진</div>
+            <div class="ph"><svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a4f52"/><stop offset="1" stop-color="#2c3032"/>
+    </linearGradient>
+    <radialGradient id="metal" cx="40%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#9aa1a4"/><stop offset="0.5" stop-color="#6c7276"/><stop offset="1" stop-color="#3f4447"/>
+    </radialGradient>
+    <radialGradient id="metal2" cx="40%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#8d9498"/><stop offset="1" stop-color="#3a3f42"/>
+    </radialGradient>
+    <linearGradient id="guard" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b9c0c3" stop-opacity="0.92"/><stop offset="1" stop-color="#7f868a" stop-opacity="0.92"/>
+    </linearGradient>
+    <radialGradient id="vig" cx="50%" cy="45%" r="75%">
+      <stop offset="0.6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.38"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 기계 하우징 배경 -->
+  <rect width="400" height="220" fill="url(#bg)"/>
+  <rect x="0" y="150" width="400" height="70" fill="#23272a" opacity="0.55"/>
+  <line x1="0" y1="150" x2="400" y2="150" stroke="#1c1f21" stroke-width="2"/>
+
+  <!-- 체인 (두 스프로킷 감싸는 띠) -->
+  <path d="M150,74 Q235,60 320,105 L320,165 Q235,180 150,166 Z" fill="none" stroke="#52585b" stroke-width="13"/>
+  <path d="M150,74 Q235,60 320,105 L320,165 Q235,180 150,166 Z" fill="none" stroke="#7c8488" stroke-width="9"/>
+  <path d="M150,74 Q235,60 320,105 L320,165 Q235,180 150,166 Z" fill="none" stroke="#3c4143" stroke-width="2" stroke-dasharray="6 5"/>
+
+  <!-- 큰 스프로킷 -->
+  <path d="M 196.0,120.0 L 187.3,127.4 L 192.5,137.6 L 181.6,141.1 L 182.5,152.5 L 171.1,151.6 L 167.6,162.5 L 157.4,157.3 L 150.0,166.0 L 142.6,157.3 L 132.4,162.5 L 128.9,151.6 L 117.5,152.5 L 118.4,141.1 L 107.5,137.6 L 112.7,127.4 L 104.0,120.0 L 112.7,112.6 L 107.5,102.4 L 118.4,98.9 L 117.5,87.5 L 128.9,88.4 L 132.4,77.5 L 142.6,82.7 L 150.0,74.0 L 157.4,82.7 L 167.6,77.5 L 171.1,88.4 L 182.5,87.5 L 181.6,98.9 L 192.5,102.4 L 187.3,112.6 Z" fill="url(#metal)" stroke="#23282b" stroke-width="1.5"/>
+  <circle cx="150" cy="120" r="20" fill="url(#metal2)" stroke="#23282b" stroke-width="1.5"/>
+  <circle cx="150" cy="120" r="6" fill="#23282b"/>
+  <circle cx="150" cy="104" r="2.6" fill="#2b3033"/><circle cx="166" cy="120" r="2.6" fill="#2b3033"/>
+  <circle cx="150" cy="136" r="2.6" fill="#2b3033"/><circle cx="134" cy="120" r="2.6" fill="#2b3033"/>
+
+  <!-- 작은 스프로킷 -->
+  <path d="M 350.0,135.0 L 343.3,140.7 L 346.6,148.9 L 338.0,150.9 L 337.0,159.7 L 328.5,157.4 L 323.6,164.8 L 317.1,158.8 L 309.4,163.1 L 306.4,154.8 L 297.5,154.9 L 298.7,146.2 L 290.9,142.2 L 296.0,135.0 L 290.9,127.8 L 298.7,123.8 L 297.5,115.1 L 306.4,115.2 L 309.4,106.9 L 317.1,111.2 L 323.6,105.2 L 328.5,112.6 L 337.0,110.3 L 338.0,119.1 L 346.6,121.1 L 343.3,129.3 Z" fill="url(#metal2)" stroke="#23282b" stroke-width="1.5"/>
+  <circle cx="320" cy="135" r="11" fill="url(#metal)" stroke="#23282b" stroke-width="1.2"/>
+  <circle cx="320" cy="135" r="3.5" fill="#23282b"/>
+
+  <!-- 방호덮개 (모서리 파손) -->
+  <path d="M196,40 L360,40 L360,96 L300,96 L300,78 L196,78 Z" fill="url(#guard)" stroke="#5f676b" stroke-width="1.5"/>
+  <path d="M300,96 L300,78 L340,78 L300,96 Z" fill="#2c3032" opacity="0.5"/>
+  <text x="208" y="62" font-family="Arial" font-size="11" fill="#3f4448" font-weight="bold" opacity="0.7">GUARD</text>
+  <circle cx="206" cy="48" r="2.4" fill="#4a5054"/><circle cx="352" cy="48" r="2.4" fill="#4a5054"/>
+  <circle cx="352" cy="88" r="2.4" fill="#4a5054"/>
+  <!-- 파손 표시(거친 모서리) -->
+  <path d="M300,78 l-8,6 l10,3 l-6,7 l12,2" fill="none" stroke="#c2402f" stroke-width="2" opacity="0.85"/>
+
+  <!-- 노출/그레인 비네팅 -->
+  <rect width="400" height="220" fill="url(#vig)"/>
+  <rect width="400" height="220" fill="#a9b0aa" opacity="0.04"/>
+</svg><span class="label" style="bottom:10px;left:10px;top:auto;position:absolute;">3라인 컨베이어 동력전달부</span><span class="stamp">2026-03-12 10:24</span></div>
+            <table class="meta">
+              <tr><th>파일명</th><td class="num flag">IMG_3417.jpg</td></tr>
+              <tr><th>촬영일시</th><td class="num flag">2026-03-12 10:24:18</td></tr>
+              <tr><th>촬영좌표</th><td class="num flag">35.18••, 129.07••</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 제보자 메모 -->
+      <div class="memo">
+        <div class="t">제보자 메모</div>
+        <p>두 분기 점검일지를 비교하다가, 측정값이 소수점까지 같고 제출된 현장 사진의 파일명·촬영일시가 동일한 점이 눈에 띄어 함께 정리했습니다. 제가 잘못 본 것일 수도 있으나, 확인이 필요해 보여 부장님께만 전달드립니다.</p>
+      </div>
+
+      <div class="foot">
+        <span>본 자료는 내부 확인을 위한 참고용이며, 외부 공유를 금합니다.</span>
+        <span>작성: (익명) · 2026-06-14</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
